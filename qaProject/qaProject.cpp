@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 #include <tuple>
+#include <fstream> //ofstream, instream, .eof(), .get()
 
 using namespace std;
 
@@ -34,6 +35,8 @@ void fourthParallelLoop(long& i, double B, int N, long& j, double D, double& C);
 int main()
 {
     int threads = 2, maxThreads = 5;
+    //open output file
+    ofstream outFile;
     //try for threads 2-5???
     for (threads = 2; threads <= maxThreads; threads++)
     {
@@ -79,7 +82,9 @@ int main()
             }
         }
         loseRate = seqWins / totalRuns;
-        printf("\n\nPercentage of Sequential Wins for %d threads is %1.2f\n\n", threads, loseRate);
+        // open output file
+        outFile.open("/output.txt");
+        outFile << "\n\nPercentage of Sequential Wins for" << threads << "is" << loseRate << endl;
         
         // handle sequential wins
         for (const auto& caseData : sequentialFasterCases)
@@ -87,11 +92,11 @@ int main()
             int N_case, M_case;
             double Seq_case, Para_case;
             tie(N_case, M_case, Seq_case, Para_case) = caseData;
-            printf("N+M = %d\n", N_case + M_case);
-            printf("Sequential is faster for N=%d , M=%d, by %f\n\n", N_case, M_case, Para_case - Seq_case);
+            outFile << "N+M = " << N_case + M_case << endl;
+            outFile << "Sequential is faster for N=" << N_case << ", M=" << M_case << ", by " << Para_case - Seq_case << endl;
         }
     }
-
+    outFile.close();
     return 0;
 }
 
