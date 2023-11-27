@@ -25,10 +25,3 @@ TEST(QAProject, SequentialVsParallel) {
     // For example, you might want to check that the sequential implementation is faster
     // in certain cases or that the parallel implementation produces correct results.
 }
-
-// Run the DeepState test
-int main(int argc, char** argv) {
-    DeepState_InitOptions(argc, argv);
-
-    return DeepState_Run();
-}
