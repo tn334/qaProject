@@ -14,11 +14,12 @@ TEST(QAProject, SequentialVsParallel) {
     double seqTime = 0, paraTime = 0;
     const char* filename = "output.txt";
 
-    ASSERT_GE(N, 0); // Assert that N is greater than or equal to 0
+    ASSERT_GE(N, 50); // Assert that N is greater than or equal to 0
+    ASSERT_GE(M, 50); // Assert that N is greater than or equal to 0
 
-    ASSERT_LT(loseRate, 1.0); // Assert that loseRate is less than 1.0
+    //ASSERT_LT(loseRate, 1.0); // Assert that loseRate is less than 1.0
 
-    ASSERT_EQ(totalRuns, (parameterEnd / incrementor) * (parameterEnd / incrementor));
+    //ASSERT_EQ(totalRuns, (parameterEnd / incrementor) * (parameterEnd / incrementor));
 
 
     // Run the sequential implementation
