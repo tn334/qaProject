@@ -10,7 +10,7 @@ const double timeDiffThreshold = .005;
 
 int myMain();
 
-void inLoopRun(int& N, int& M, double& seqTime, double& paraTime)
+void inLoopRun(int& N, int& M, double& seqTime, double& paraTime);
 void firstSeqLoop(int N, int M, long& A);
 void thirdSeqLoop(int M, int N, double& D);
 void fourthSeqLoop(double B, int N, double D, double& C);
