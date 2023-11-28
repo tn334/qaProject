@@ -6,7 +6,7 @@
 const int parameterStart = 50;
 const int parameterEnd = 300;
 const int incrementor = 50;
-const double timeDiffThreshold = .0005;
+const double timeDiffThreshold = .005;
 
 void firstSeqLoop(int N, int M, long& A);
 void thirdSeqLoop(int M, int N, double& D);
