@@ -26,7 +26,7 @@ $(UNIT):	$(OBJS)
 			$(CC) $(CFLAGS) $(OBJS) -o $(UNIT)
 
 $(DS):		$(OBJSDS)
-			$(CC) -std=c++14 $(CFLAGS) -o $(DS) deepstate_harness.cpp $(OBJSDS) -ldeepstate
+			$(CC) -std=c++14 $(CFLAGS) -o $(DS) deepstateTests.cpp $(OBJSDS) -ldeepstate
 
 $(DSSAN):	$(OBJSDSSAN)
 			$(CC) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) deepstateTests.cpp $(OBJSDSSAN) -ldeepstate
