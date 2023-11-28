@@ -48,6 +48,9 @@ int main()
                 {
                     sequentialFasterCases.emplace_back(N, M, seqTime, paraTime);
                     seqWins++;
+                #ifdef DEBUD_ASSERT
+                    Assert(seqTime < paraTime, "Sequential is faster than parallelized");
+                #endif
                 }
 
                 totalRuns++;
