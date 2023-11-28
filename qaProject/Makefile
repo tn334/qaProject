@@ -19,7 +19,7 @@ CXX=clang++
 
 CFLAGS = -fopenmp
 
-UNIT = my_test
+UNIT = my_code
 #deepstate exec
 DS = ds_test
 #DeepState exec w sanitizers
