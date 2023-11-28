@@ -1,6 +1,7 @@
 // qaProject.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
 #include "qaProject.h"
+#include <assert.h>
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
