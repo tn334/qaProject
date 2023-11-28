@@ -18,8 +18,8 @@ TEST(QAProject, SequentialVsParallel) {
     // Run the parallel implementation
     double paraResult = parrallelOptimizedRun(N, M);
 
-    seqTime = seqTimer(N, M, seqTime); 
-    paraTime = paraTimer(N, M, paraTime);
+    seqTimer(N, M, seqTime); 
+    paraTimer(N, M, paraTime);
 
     // Check if the results are equal within a tolerance
     ASSERT_EQ(seqResult, paraResult) << "Sequential and parallel results should be equal.";
