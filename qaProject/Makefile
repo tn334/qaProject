@@ -44,7 +44,7 @@ $(DSAFL):	$(OBJSDSAFL) deepstateTests.cpp
 qaProject.o:	qaProject.cpp qaProject.h
 
 san_qaProject.o:	qaProject.cpp qaProject.h
-					$(CXX) $(CFLAGS) -c -o san_qaProject.ol qaProject.cpp -fsanitize=undefined,address,integer
+					$(CXX) $(CFLAGS) -c -o san_qaProject.o qaProject.cpp -fsanitize=undefined,address,integer
 
 afl_qaProject.o:	qaProject.cpp qaProject.h
 					${AFL_HOME}/afl-clang $(CFLAGS) -c -o afl_qaProject.o qaProject.cpp
