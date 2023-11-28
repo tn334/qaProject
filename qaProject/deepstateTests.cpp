@@ -1,5 +1,8 @@
 #include <deepstate/DeepState.hpp>
 #include "qaProject.cpp"
+#include <fcntl.h>
+#include <unistd.h>
+#include <string>
 
 using namespace deepstate;
 
@@ -7,6 +10,7 @@ TEST(QAProject, SequentialVsParallel) {
     int N = DeepState_IntInRange(parameterStart, parameterEnd);
     int M = DeepState_IntInRange(parameterStart, parameterEnd);
     double tolerance = .0005;
+    string filename = "output.txt";
     // Run the sequential implementation
     double seqResult = sequentialRun(N, M);
 
@@ -15,6 +19,8 @@ TEST(QAProject, SequentialVsParallel) {
 
     // Check if the results are equal within a tolerance
     ASSERT_EQ(seqResult, paraResult) << "Sequential and parallel results should be equal.";
+
+    ASSERT_TRUE(access(filename, F_OK) == 0) << "File " << filename << " not created";
 
     // Add more assertions if needed
     //ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
