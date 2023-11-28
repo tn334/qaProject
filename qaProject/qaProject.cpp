@@ -19,6 +19,8 @@ const double timeDiffThreshold = .0005;
 
 // functions
 double sequentialRun(int N, int M);
+void seqTimer(int N, int M, double& seqTime);
+void paraTimer(int N, int M, double& paraTime);
 void fourthSeqLoop(double B, int N, double D, double& C);
 void thirdSeqLoop(int M, int N, double& D);
 void secondSeqLoop(long A, double& B);
@@ -44,7 +46,7 @@ int main()
     for (threads = 2; threads <= maxThreads; threads++)
     {
         // you may add some code here to measure the execution time
-        double seqTime, paraTime;
+        double seqTime = 0, paraTime = 0;
         double seqWins = 0, totalRuns = 0;
         double loseRate = 0;
         vector<tuple<int, int, double, double>> sequentialFasterCases;
@@ -55,25 +57,9 @@ int main()
         {
             for (int M = parameterStart; M <= parameterEnd; M += incrementor)
             {
-                //sequential testing
-                double seqStart, seqEnd;
+                seqTimer(N, M, seqTime);
 
-                //get start time
-                seqStart = omp_get_wtime();
-
-                //run sequential function
-                double result = sequentialRun(N, M);
-                //get stop time
-                seqEnd = omp_get_wtime();
-                //get total time
-                seqTime = seqEnd - seqStart;
-
-                //para testing
-                double paraStart, paraEnd;
-                paraStart = omp_get_wtime();
-                double resultParallel = parrallelOptimizedRun(N, M);
-                paraEnd = omp_get_wtime();
-                paraTime = paraEnd - paraStart;
+                paraTimer(N, M, paraTime);
                 
                 if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
                 {
@@ -102,6 +88,32 @@ int main()
     outFile.close();
     cout << "File Output.txt closed" << endl;
     return 0;
+}
+
+void paraTimer(int N, int M, double& paraTime)
+{
+    //para testing
+    double paraStart, paraEnd;
+    paraStart = omp_get_wtime();
+    double resultParallel = parrallelOptimizedRun(N, M);
+    paraEnd = omp_get_wtime();
+    paraTime = paraEnd - paraStart;
+}
+
+void seqTimer(int N, int M, double& seqTime)
+{
+    //sequential testing
+    double seqStart, seqEnd;
+
+    //get start time
+    seqStart = omp_get_wtime();
+
+    //run sequential function
+    double result = sequentialRun(N, M);
+    //get stop time
+    seqEnd = omp_get_wtime();
+    //get total time
+    seqTime = seqEnd - seqStart;
 }
 
 double sequentialRun(int N, int M)
