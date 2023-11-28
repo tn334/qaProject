@@ -22,7 +22,7 @@ int main()
     ofstream outFile;
     //try for threads 2-5???
 
-    cout << "Opening output.txt file" << endl;
+    //cout << "Opening output.txt file" << endl;
     outFile.open("../output.txt");
 
 
@@ -69,7 +69,7 @@ int main()
         
     }
     outFile.close();
-    cout << "File Output.txt closed" << endl;
+    //cout << "File Output.txt closed" << endl;
     return 0;
 }
 
