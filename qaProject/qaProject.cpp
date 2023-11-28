@@ -29,7 +29,7 @@ int main()
 
 
 
-    for (threads = 2; threads <= maxThreads; threads++)
+    for (threads = 2; threads < maxThreads; threads++)
     {
         // you may add some code here to measure the execution time
         double seqTime = 0, paraTime = 0;
