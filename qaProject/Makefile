@@ -39,7 +39,7 @@ $(DSSAN):	$(OBJSDSSAN)
 			$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) deepstateTests.cpp $(OBJSDSSAN) -ldeepstate
 
 $(DSAFL):	$(OBJSDSAFL) deepstateTests.cpp
-			${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) deepstateTests.cpp $(OBJSDSAFL) -ldeepstate_ALF
+			${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) deepstateTests.cpp $(OBJSDSAFL) -ldeepstate_AFL
 
 qaProject.o:	qaProject.cpp qaProject.h
 
