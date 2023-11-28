@@ -14,6 +14,9 @@ TEST(QAProject, SequentialVsParallel) {
     double seqTime = 0, paraTime = 0;
     const char* filename = "output.txt";
 
+    LOG(TRACE) << "N=" << N;
+    LOG(TRACE) << "M=" << M;
+
     ASSERT_GE(N, 50); // Assert that N is greater than or equal to 0
     ASSERT_GE(M, 50); // Assert that N is greater than or equal to 0
 
@@ -29,7 +32,9 @@ TEST(QAProject, SequentialVsParallel) {
     // Run the parallel implementation
     double paraResult = parrallelOptimizedRun(N, M);
 
-    //ASSERT_EQ(seqResult, paraResult) << "Sequential and parallel results should be equal.";
+
+
+    ASSERT_EQ(seqResult, paraResult) << "Sequential and parallel results should be equal.";
 
 
 
@@ -37,10 +42,13 @@ TEST(QAProject, SequentialVsParallel) {
 
 
     // Add more assertions if needed
-    ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
     seqTimer(N, M, seqTime);
     paraTimer(N, M, paraTime);
-
+    LOG(TRACE) << "Parallelized Time=" << paraTime;
+    LOG(TRACE) << "Sequential Time=" << seqTime;
+    ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
+    
+    
     //ASSERT_FLOAT_NEAR(seqTime, paraTime, timeDiffThreshold) << "Values are not within tolerance.";
 
     // You can also check specific conditions based on your implementation
