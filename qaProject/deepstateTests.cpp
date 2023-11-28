@@ -10,7 +10,7 @@ TEST(QAProject, SequentialVsParallel) {
     int N = DeepState_IntInRange(parameterStart, parameterEnd);
     int M = DeepState_IntInRange(parameterStart, parameterEnd);
     double tolerance = .0005;
-    string filename = "output.txt";
+    const char* filename = "output.txt";
     // Run the sequential implementation
     double seqResult = sequentialRun(N, M);
 
