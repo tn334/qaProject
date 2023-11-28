@@ -42,6 +42,7 @@ $(DSAFL):	$(OBJSDSAFL) deepstateTests.cpp
 			${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) deepstateTests.cpp $(OBJSDSAFL) -ldeepstate_AFL
 
 qaProject.o:	qaProject.cpp qaProject.h
+				$(CXX) -c -o qaProject.cpp
 
 san_qaProject.o:	qaProject.cpp qaProject.h
 					$(CXX) $(CFLAGS) -c -o san_qaProject.o qaProject.cpp -fsanitize=undefined,address,integer
