@@ -74,7 +74,7 @@ void inLoopRun(int& N, int& M, double& seqTime, double& paraTime)
 
     paraTimer(N, M, paraTime);
 
-    if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
+    /*if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
     {
         sequentialFasterCases.emplace_back(N, M, seqTime, paraTime);
         seqWins++;
@@ -83,7 +83,7 @@ void inLoopRun(int& N, int& M, double& seqTime, double& paraTime)
 #endif
     }
 
-    totalRuns++;
+    totalRuns++;*/
 }
 
 void paraTimer(int N, int M, double& paraTime)
