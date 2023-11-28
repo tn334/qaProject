@@ -3,12 +3,19 @@
 # needs deepstate, with libfuzzer and afl support
 
 SRCS = qaProject.cpp
+
+HDRS = qaProject.h
+
 OBJS = qaProject.o
+
 OBJSDS = qaProject.o
+
 OBJSDSSAN = san_qaProject.o
+
 OBJSDSAFL = afl_qaProject.o
 
-CC=clang++
+
+CXX=clang++
 
 CFLAGS = -fopenmp -lm
 
@@ -23,23 +30,23 @@ DSAFL = ds_test_afl
 all: $(UNIT) $(DS) $(DSSAN) $(DSAFL)
 
 $(UNIT):	$(OBJS)
-			$(CC) $(CFLAGS) $(OBJS) -o $(UNIT)
+			$(CXX) $(CFLAGS) $(OBJS) -o $(UNIT)
 
 $(DS):		$(OBJSDS)
-			$(CC) -std=c++14 $(CFLAGS) -o $(DS) deepstateTests.cpp $(OBJSDS) -ldeepstate
+			$(CXX) -std=c++14 $(CFLAGS) -o $(DS) deepstateTests.cpp $(OBJSDS) -ldeepstate
 
 $(DSSAN):	$(OBJSDSSAN)
-			$(CC) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) deepstateTests.cpp $(OBJSDSSAN) -ldeepstate
+			$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) deepstateTests.cpp $(OBJSDSSAN) -ldeepstate
 
 $(DSAFL):	$(OBJSDSAFL) deepstateTests.cpp
 			${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) deepstateTests.cpp $(OBJSDSAFL) -ldeepstate_LF
 
-qaProject.o:	qaProject.cpp
+qaProject.o:	qaProject.cpp qaProject.h
 
-san_qaProject.o:	qaProject.cpp
-					$(CC) $(CFLAGS) -c -o san_qaProject.ol qaProject.cpp -fsanitize=undefined,address,integer
+san_qaProject.o:	qaProject.cpp qaProject.h
+					$(CXX) $(CFLAGS) -c -o san_qaProject.ol qaProject.cpp -fsanitize=undefined,address,integer
 
-afl_qaProject.o:	qaProject.cpp
+afl_qaProject.o:	qaProject.cpp qaProject.h
 					${AFL_HOME}/afl-clang $(CFLAGS) -c -o afl_qaProject.o qaProject.cpp
 
 clean:			

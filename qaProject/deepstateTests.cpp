@@ -1,5 +1,6 @@
 #include <deepstate/DeepState.hpp>
 #include "qaProject.cpp"
+#include "qaProject.h"
 #include <fcntl.h>
 #include <unistd.h>
 #include <string>

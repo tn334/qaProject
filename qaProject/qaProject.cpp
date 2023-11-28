@@ -1,5 +1,6 @@
 // qaProject.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
+#include "qaProject.h"
 #include <iostream>
 #include <stdio.h>
 #include <math.h>
@@ -16,21 +17,6 @@ const int parameterStart = 50;
 const int parameterEnd = 300;
 const int incrementor = 50;
 const double timeDiffThreshold = .0005;
-
-// functions
-double sequentialRun(int N, int M);
-void seqTimer(int N, int M, double& seqTime);
-void paraTimer(int N, int M, double& paraTime);
-void fourthSeqLoop(double B, int N, double D, double& C);
-void thirdSeqLoop(int M, int N, double& D);
-void secondSeqLoop(long A, double& B);
-void firstSeqLoop(int N, int M, long& A);
-double parrallelOptimizedRun(int N, int M);
-
-void firstParallelLoop(int N, int M, long& A);
-void secondParallelLoop(long A, double& B);
-void thirdParallelLoop(int M, int N, double& D);
-void fourthParallelLoop(double B, int N, double D, double& C);
 
 int main()
 {

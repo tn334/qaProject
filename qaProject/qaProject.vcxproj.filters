@@ -18,5 +18,16 @@
     <ClCompile Include="qaProject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="deepstateTests.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Makefile" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="qaProject.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
