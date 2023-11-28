@@ -13,10 +13,7 @@
 using namespace std;
 
 //declare consts
-const int parameterStart = 50;
-const int parameterEnd = 300;
-const int incrementor = 50;
-const double timeDiffThreshold = .0005;
+
 
 int main()
 {
