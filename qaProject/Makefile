@@ -17,7 +17,7 @@ OBJSDSAFL = afl_qaProject.o
 
 CXX=clang++
 
-CFLAGS = -fopenmp -lm
+CFLAGS = -fopenmp
 
 UNIT = my_test
 #deepstate exec
