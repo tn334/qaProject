@@ -21,6 +21,7 @@ TEST(QAProject, SequentialVsParallel) {
 
     //ASSERT_EQ(totalRuns, (parameterEnd / incrementor) * (parameterEnd / incrementor));
 
+    inLoopRun(N, M, seqTime, paraTime, )
 
     // Run the sequential implementation
     double seqResult = sequentialRun(N, M);

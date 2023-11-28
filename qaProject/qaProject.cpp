@@ -16,7 +16,7 @@ using namespace std;
 //declare consts
 
 
-int main()
+int myMain()
 {
     int threads = 2, maxThreads = 5;
     //open output file
@@ -43,20 +43,7 @@ int main()
         {
             for (int M = parameterStart; M <= parameterEnd; M += incrementor)
             {
-                seqTimer(N, M, seqTime);
-
-                paraTimer(N, M, paraTime);
-                
-                if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
-                {
-                    sequentialFasterCases.emplace_back(N, M, seqTime, paraTime);
-                    seqWins++;
-                #ifdef DEBUD_ASSERT
-                    Assert(seqTime < paraTime, "Sequential is faster than parallelized");
-                #endif
-                }
-
-                totalRuns++;
+                inLoopRun(N, M, seqTime, paraTime);
             }
         }
         loseRate = seqWins / totalRuns;
@@ -79,6 +66,24 @@ int main()
     assert(!outFile.is_open() && "Failed to close output.txt file");
 
     return 0;
+}
+
+void inLoopRun(int& N, int& M, double& seqTime, double& paraTime)
+{
+    seqTimer(N, M, seqTime);
+
+    paraTimer(N, M, paraTime);
+
+    if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
+    {
+        sequentialFasterCases.emplace_back(N, M, seqTime, paraTime);
+        seqWins++;
+#ifdef DEBUG_ASSERT
+        Assert(seqTime < paraTime, "Sequential is faster than parallelized");
+#endif
+    }
+
+    totalRuns++;
 }
 
 void paraTimer(int N, int M, double& paraTime)
