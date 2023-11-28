@@ -25,6 +25,8 @@ int main()
 
     //cout << "Opening output.txt file" << endl;
     outFile.open("../output.txt");
+    assert(outFile.is_open() && "Failed to open output.txt file");
+
 
 
     for (threads = 2; threads <= maxThreads; threads++)
@@ -72,8 +74,10 @@ int main()
         }
         
     }
+    //close and check output file closed
     outFile.close();
-    //cout << "File Output.txt closed" << endl;
+    assert(!outFile.is_open() && "Failed to close output.txt file");
+
     return 0;
 }
 
