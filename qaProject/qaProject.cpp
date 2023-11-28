@@ -1,8 +1,6 @@
 // qaProject.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
 
 #include <iostream>
-
 #include <stdio.h>
 #include <math.h>
 #include <omp.h>
@@ -21,16 +19,16 @@ const double timeDiffThreshold = .0005;
 
 // functions
 double sequentialRun(int N, int M);
-void fourthSeqLoop(long& i, double B, int N, long& j, double D, double& C);
-void thirdSeqLoop(long& i, int M, int N, long& j, double& D);
-void secondSeqLoop(long& i, long A, double& B);
-void firstSeqLoop(long& i, int N, long& j, int M, long& A);
+void fourthSeqLoop(double B, int N, double D, double& C);
+void thirdSeqLoop(int M, int N, double& D);
+void secondSeqLoop(long A, double& B);
+void firstSeqLoop(int N, int M, long& A);
 double parrallelOptimizedRun(int N, int M);
 
-void firstParallelLoop(long& i, int N, long& j, int M, long& A);
-void secondParallelLoop(long& i, long A, double& B);
-void thirdParallelLoop(long& i, int M, int N, long& j, double& D);
-void fourthParallelLoop(long& i, double B, int N, long& j, double D, double& C);
+void firstParallelLoop(int N, int M, long& A);
+void secondParallelLoop(long A, double& B);
+void thirdParallelLoop(int M, int N, double& D);
+void fourthParallelLoop(double B, int N, double D, double& C);
 
 int main()
 {
@@ -38,6 +36,11 @@ int main()
     //open output file
     ofstream outFile;
     //try for threads 2-5???
+
+    cout << "Opening output.txt file" << endl;
+    outFile.open("../output.txt");
+
+
     for (threads = 2; threads <= maxThreads; threads++)
     {
         // you may add some code here to measure the execution time
@@ -82,9 +85,8 @@ int main()
             }
         }
         loseRate = seqWins / totalRuns;
-        // open output file
-        outFile.open("/output.txt");
-        outFile << "\n\nPercentage of Sequential Wins for" << threads << "is" << loseRate << endl;
+        
+        outFile << "\n\nPercentage of Sequential Wins for " << threads << " is " << loseRate << endl;
         
         // handle sequential wins
         for (const auto& caseData : sequentialFasterCases)
@@ -95,154 +97,123 @@ int main()
             outFile << "N+M = " << N_case + M_case << endl;
             outFile << "Sequential is faster for N=" << N_case << ", M=" << M_case << ", by " << Para_case - Seq_case << endl;
         }
+        
     }
     outFile.close();
+    cout << "File Output.txt closed" << endl;
     return 0;
 }
 
 double sequentialRun(int N, int M)
 {
-    long i, j;
     long A = 0;
     double B = 0, C = 0, D = 0;
 
-    firstSeqLoop(i, N, j, M, A);
+    firstSeqLoop(N, M, A);
 
-    secondSeqLoop(i, A, B);
+    secondSeqLoop(A, B);
 
-    thirdSeqLoop(i, M, N, j, D);
+    thirdSeqLoop(M, N, D);
 
-    fourthSeqLoop(i, B, N, j, D, C);
+    fourthSeqLoop(B, N, D, C);
 
     return A + B - C / D;
 }
 
-void firstSeqLoop(long& i, int N, long& j, int M, long& A)
+void firstSeqLoop( int N, int M, long& A)
 {
-    for (i = 0; i < N; i++)
+    for (long i = 0; i < N; i++)
     {
-        for (j = 0; j < M; j++)
+        for (long j = 0; j < M; j++)
         {
             A += i * j;
         }
     }
 }
 
-void secondSeqLoop(long& i, long A, double& B)
+void secondSeqLoop(long A, double& B)
 {
-    for (i = 1; i < (long)sqrt(A); i++)
+    for (long i = 1; i < (long)sqrt(A); i++)
     {
         B += 1 / i;
-    }
-        
+    } 
 }
 
-void thirdSeqLoop(long& i, int M, int N, long& j, double& D)
+void thirdSeqLoop(int M, int N, double& D)
 {
-    for (i = 0; i < M * N; i++)
+    for (long i = 0; i < M * N; i++)
     {
-        for (j = 0; j < M; j++)
+        for (long j = 0; j < M; j++)
         {
             D += pow(0.1, i * j);
         }
-    }
-        
+    }   
 }
 
-void fourthSeqLoop(long& i, double B, int N, long& j, double D, double& C)
+void fourthSeqLoop(double B, int N, double D, double& C)
 {
-    for (i = 0; i < (long)B * (N + 1); i++)
+    for (long i = 0; i < (long)B * (N + 1); i++)
     {
-        for (j = 1; j < (long)sqrt(D); j++)
+        for (long j = 1; j < (long)sqrt(D); j++)
         {
             C += i / j;
         }
-    }
-        
+    }    
 }
 
 double parrallelOptimizedRun(int N, int M)
 {
-    long i, j;
+    
     long A = 0;
     double B = 0, C = 0, D = 0;
 
-//#pragma omp parallel for if(N + M < 350) private(j) reduction(+:A) schedule(dynamic)
-//    for (i = 0; i < N; i++)
-//    {
-//        for (j = 0; j < M; j++)
-//        {
-//            A += i * j;
-//        }
-//    }
-//
-//#pragma omp parallel for if(N + M < 350) reduction(+:B) schedule(dynamic)
-//    for (i = 1; i < (long)sqrt(A); i++)
-//        B += 1 / i;
-//
-//#pragma omp parallel for if(N + M < 350) private(j) reduction(+:D) schedule(dynamic)
-//    for (i = 0; i < M * N; i++)
-//        for (j = 0; j < M; j++)
-//        {
-//            D += pow(0.1, i * j);
-//        }
-//
-//#pragma omp parallel for if(N + M < 350) reduction(+:C) schedule(dynamic)
-//    for (i = 0; i < (long)B * (N + 1); i++)
-//        for (j = 1; j < (long)sqrt(D); j++)
-//        {
-//            C += i / j;
-//        }
     // handle nested loop with data dependency A
-        //fast paralellization
-    //if(N * M > 100)
-    firstParallelLoop(i, N, j, M, A);
+    firstParallelLoop(N, M, A);
 
     // data dependency
-    //if(N > 100)
-    secondParallelLoop(i, A, B);
+    secondParallelLoop(A, B);
 
     //nested loops data dependency D and B
-    //if(N * M > 100)
-    thirdParallelLoop(i, M, N, j, D);
+    thirdParallelLoop(M, N, D);
 
     //nested loops
-    //if((long)B * (N + 1) > 100)
-    fourthParallelLoop(i, B, N, j, D, C);
+    fourthParallelLoop(B, N, D, C);
 
     //return result
     return A + B - C / D;
 }
 
-void firstParallelLoop(long& i, int N, long& j, int M, long& A)
+void firstParallelLoop(int N, int M, long& A)
 {
+    long j;
 #pragma omp parallel for if(N + M < 350) private(j) reduction(+:A) schedule(dynamic)
-    for (i = 0; i < N; i++)
+    for (long i = 0; i < N; i++)
     {
-        for (j = 0; j < M; j++)
+        for ( j = 0; j < M; j++)
         {
             A += i * j;
         }
     }
 }
 
-void secondParallelLoop(long& i, long A, double& B)
+void secondParallelLoop(long A, double& B)
 {
     //if(N + M < 350)
 #pragma omp parallel for reduction(+:B) schedule(dynamic)
-    for (i = 1; i < (long)sqrt(A); i++)
+    for (long i = 1; i < (long)sqrt(A); i++)
     {
         B += 1 / i;
     }
         
 }
 
-void thirdParallelLoop(long& i, int M, int N, long& j, double& D)
+void thirdParallelLoop(int M, int N, double& D)
 {
+    long j;
 #pragma omp parallel for if(N + M < 350) private(j) reduction(+:D) schedule(dynamic)
-    for (i = 0; i < M * N; i++)
+    for (long i = 0; i < M * N; i++)
     {
-        for (j = 0; j < M; j++)
+        for ( j = 0; j < M; j++)
         {
             D += pow(0.1, i * j);
         }
@@ -250,13 +221,13 @@ void thirdParallelLoop(long& i, int M, int N, long& j, double& D)
         
 }
 
-void fourthParallelLoop(long& i, double B, int N, long& j, double D, double& C)
+void fourthParallelLoop(double B, int N, double D, double& C)
 {
     //if(N + M < 350)
 #pragma omp parallel for reduction(+:C) schedule(dynamic)
-    for (i = 0; i < (long)B * (N + 1); i++)
+    for (long i = 0; i < (long)B * (N + 1); i++)
     {
-        for (j = 1; j < (long)sqrt(D); j++)
+        for (long j = 1; j < (long)sqrt(D); j++)
         {
             C += i / j;
         }
