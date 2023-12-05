@@ -4,6 +4,7 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <string>
+#include <omp.h>
 
 using namespace deepstate;
 
@@ -12,6 +13,7 @@ TEST(QAProject, SequentialVsParallel) {
     int M = DeepState_IntInRange(PARAMTER_START, PARAMETER_END);
     int threads = DeepState_IntInRange(MINTHREADS, MAXTHREADS);
 
+    omp_set_num_threads(threads);
     //double tolerance = DeepState_Double(timeDiffThreshold);
     double seqTime = 0, paraTime = 0;
     const char* filename = "output.txt";
