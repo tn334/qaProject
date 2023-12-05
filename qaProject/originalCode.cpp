@@ -13,8 +13,9 @@
 
 using namespace std;
 
-int myMain()
+int main()
 {
+    int threads = 2, maxThreads = 5;
     //open output file
     ofstream outFile;
     //try for threads 2-5???
@@ -23,9 +24,8 @@ int myMain()
     outFile.open("../output.txt");
     assert(outFile.is_open() && "Failed to open output.txt file");
 
-    int threads;
-
-    for (threads = MINTHREADS; threads < MAXTHREADS; threads++)
+    //find a way to test threads numbers
+    for (threads = 2; threads < maxThreads; threads++)
     {
         // you may add some code here to measure the execution time
         double seqTime = 0, paraTime = 0;
@@ -33,18 +33,19 @@ int myMain()
         double loseRate = 0;
         vector<tuple<int, int, double, double>> sequentialFasterCases;
 
+        omp_set_num_threads(threads);
         //sequential
         for (int N = PARAMTER_START; N <= PARAMETER_END; N += INCREMENTOR)
         {
             for (int M = PARAMTER_START; M <= PARAMETER_END; M += INCREMENTOR)
             {
-                inLoopRun(N, M, seqTime, paraTime, threads);
+                inLoopRun(N, M, seqTime, paraTime);
             }
         }
         loseRate = seqWins / totalRuns;
-        
+
         outFile << "\n\nPercentage of Sequential Wins for " << threads << " is " << loseRate << endl;
-        
+
         // handle sequential wins
         for (const auto& caseData : sequentialFasterCases)
         {
@@ -54,7 +55,7 @@ int myMain()
             outFile << "N+M = " << N_case + M_case << endl;
             outFile << "Sequential is faster for N=" << N_case << ", M=" << M_case << ", by " << Para_case - Seq_case << endl;
         }
-        
+
     }
     //close and check output file closed
     outFile.close();
@@ -112,19 +113,6 @@ double sequentialRun(int N, int M)
     long A = 0;
     double B = 0, C = 0, D = 0;
 
-    firstSeqLoop(N, M, A);
-
-    secondSeqLoop(A, B);
-
-    thirdSeqLoop(M, N, D);
-
-    fourthSeqLoop(B, N, D, C);
-
-    return A + B - C / D;
-}
-
-void firstSeqLoop( int N, int M, long& A)
-{
     for (long i = 0; i < N; i++)
     {
         for (long j = 0; j < M; j++)
@@ -132,100 +120,66 @@ void firstSeqLoop( int N, int M, long& A)
             A += i * j;
         }
     }
-}
 
-void secondSeqLoop(long A, double& B)
-{
     for (long i = 1; i < (long)sqrt(A); i++)
     {
         B += 1 / i;
-    } 
-}
+    }
 
-void thirdSeqLoop(int M, int N, double& D)
-{
     for (long i = 0; i < M * N; i++)
     {
         for (long j = 0; j < M; j++)
         {
             D += pow(0.1, i * j);
         }
-    }   
-}
+    }
 
-void fourthSeqLoop(double B, int N, double D, double& C)
-{
     for (long i = 0; i < (long)B * (N + 1); i++)
     {
         for (long j = 1; j < (long)sqrt(D); j++)
         {
             C += i / j;
         }
-    }    
+    }
+
+    return A + B - C / D;
 }
 
-double parrallelOptimizedRun(int N, int M, int threads)
+double parrallelOptimizedRun(int N, int M)
 {
-    omp_set_num_threads(threads);
+
     long A = 0;
     double B = 0, C = 0, D = 0;
 
     // handle nested loop with data dependency A
-    firstParallelLoop(N, M, A);
-
-    // data dependency
-    secondParallelLoop(A, B);
-
-    //nested loops data dependency D and B
-    thirdParallelLoop(M, N, D);
-
-    //nested loops
-    fourthParallelLoop(B, N, D, C);
-
-    //return result
-    return A + B - C / D;
-}
-
-void firstParallelLoop(int N, int M, long& A)
-{
-    long j;
 #pragma omp parallel for if(N + M < 350) private(j) reduction(+:A) schedule(dynamic)
     for (long i = 0; i < N; i++)
     {
-        for ( j = 0; j < M; j++)
+        for (long j = 0; j < M; j++)
         {
             A += i * j;
         }
     }
-}
 
-void secondParallelLoop(long A, double& B)
-{
+    // data dependency
     //if(N + M < 350)
 #pragma omp parallel for reduction(+:B) schedule(dynamic)
     for (long i = 1; i < (long)sqrt(A); i++)
     {
         B += 1 / i;
     }
-        
-}
 
-void thirdParallelLoop(int M, int N, double& D)
-{
-    long j;
+    //nested loops data dependency D and B
 #pragma omp parallel for if(N + M < 350) private(j) reduction(+:D) schedule(dynamic)
     for (long i = 0; i < M * N; i++)
     {
-        for ( j = 0; j < M; j++)
+        for (long j = 0; j < M; j++)
         {
             D += pow(0.1, i * j);
         }
     }
-        
-}
 
-void fourthParallelLoop(double B, int N, double D, double& C)
-{
+    //nested loops
     //if(N + M < 350)
 #pragma omp parallel for reduction(+:C) schedule(dynamic)
     for (long i = 0; i < (long)B * (N + 1); i++)
@@ -235,5 +189,10 @@ void fourthParallelLoop(double B, int N, double D, double& C)
             C += i / j;
         }
     }
-        
+
+    //return result
+    return A + B - C / D;
 }
+
+
+

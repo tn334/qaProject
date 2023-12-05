@@ -8,8 +8,10 @@
 using namespace deepstate;
 
 TEST(QAProject, SequentialVsParallel) {
-    int N = DeepState_IntInRange(parameterStart, parameterEnd);
-    int M = DeepState_IntInRange(parameterStart, parameterEnd);
+    int N = DeepState_IntInRange(PARAMTER_START, PARAMETER_END);
+    int M = DeepState_IntInRange(PARAMTER_START, PARAMETER_END);
+    int threads = DeepState_IntInRange(MINTHREADS, MAXTHREADS);
+
     //double tolerance = DeepState_Double(timeDiffThreshold);
     double seqTime = 0, paraTime = 0;
     const char* filename = "output.txt";
@@ -18,8 +20,13 @@ TEST(QAProject, SequentialVsParallel) {
     LOG(TRACE) << "M=" << M;
 
     ASSERT_GE(N, 50); // Assert that N is greater than or equal to 0
+    ASSERT_LE(N, 300);
     ASSERT_GE(M, 50); // Assert that N is greater than or equal to 0
+    ASSERT_LE(M, 300);
 
+    // Test Threads is right number
+    ASSERT_GE(threads, MINTHREADS);
+    ASSERT_LE(threads, MAXTHREADS)
     //ASSERT_LT(loseRate, 1.0); // Assert that loseRate is less than 1.0
 
     //ASSERT_EQ(totalRuns, (parameterEnd / incrementor) * (parameterEnd / incrementor));
@@ -37,7 +44,7 @@ TEST(QAProject, SequentialVsParallel) {
     ASSERT_EQ(seqResult, paraResult) << "Sequential and parallel results should be equal.";
 
 
-
+    ASSERT_EQ(firstSeqLoop, firstParallelLoop);
     // Check if the results are equal within a tolerance
 
 

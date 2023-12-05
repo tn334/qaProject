@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="deepstateTests.cpp" />
+    <ClCompile Include="originalCode.cpp" />
     <ClCompile Include="qaProject.cpp" />
   </ItemGroup>
   <ItemGroup>
