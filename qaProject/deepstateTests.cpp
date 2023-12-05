@@ -58,7 +58,7 @@ TEST(QAProject, SequentialVsParallel) {
     //ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
     
     
-    //ASSERT_FLOAT_NEAR(seqTime, paraTime, timeDiffThreshold) << "Values are not within tolerance.";
+    ASSERT_FLOAT_NEAR(seqTime, paraTime, timeDiffThreshold) << "Values are not within tolerance.";
 
     // You can also check specific conditions based on your implementation
     // For example, you might want to check that the sequential implementation is faster
