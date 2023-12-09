@@ -3,22 +3,18 @@
 # needs deepstate, with libfuzzer and afl support
 
 SRCS = qaProject.cpp
-
 HDRS = qaProject.h
-
 OBJS = qaProject.o
-
 OBJSDS = qaProject.o
-
 OBJSDSSAN = san_qaProject.o
-
 OBJSDSAFL = afl_qaProject.o
 
 
 CXX=clang++
-
 CFLAGS = -fopenmp
+AFL_HOME = /usr/local/bin/afl-gcc
 
+#real code
 UNIT = my_code
 #deepstate exec
 DS = ds_test

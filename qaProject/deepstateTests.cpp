@@ -55,11 +55,10 @@ TEST(QAProject, SequentialVsParallel) {
     paraTimer(N, M, paraTime);
     LOG(TRACE) << "Parallelized Time=" << paraTime;
     LOG(TRACE) << "Sequential Time=" << seqTime;
-    //ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
-    
+    // May make crashes
+    ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
     
     ASSERT_FLOAT_NEAR(seqTime, paraTime, timeDiffThreshold) << "Values are not within tolerance.";
-
     // You can also check specific conditions based on your implementation
     // For example, you might want to check that the sequential implementation is faster
     // in certain cases or that the parallel implementation produces correct results.

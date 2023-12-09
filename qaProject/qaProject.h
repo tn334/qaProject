@@ -8,7 +8,7 @@ const int MINTHREADS = 2;
 const int PARAMTER_START = 50;
 const int PARAMETER_END = 300;
 const int INCREMENTOR = 50;
-const double TIME_THRESHOLD = .05;
+const double TIME_THRESHOLD = .005;
 const int 
 
 int myMain();
