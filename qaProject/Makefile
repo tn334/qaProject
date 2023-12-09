@@ -10,7 +10,10 @@ OBJSDSSAN = san_qaProject.o
 OBJSDSAFL = afl_qaProject.o
 
 
-CXX=clang++
+ifeq ($(origin CXX),default)
+CXX = clang++
+endif
+
 CFLAGS = -fopenmp
 AFL_HOME = /usr/local/bin/afl-gcc
 
@@ -29,19 +32,21 @@ DSAFL = ds_test_afl
 all: $(UNIT) $(DS) $(DSSAN) $(DSAFL)
 
 $(UNIT):	$(OBJS)
-			$(CXX) $(CFLAGS) $(OBJS) -o $(UNIT)
+			$(CXX) $(CFLAGS) $(OBJS) -o $(UNIT) $(DMALLOC_LIB)
 
-$(DS):		$(OBJSDS)
+$(DS):		$(OBJSDS) deepstateTests.cpp
 			$(CXX) -std=c++14 $(CFLAGS) -o $(DS) $(DEEPSTATE_TEST_FILE) $(OBJSDS) -ldeepstate
 
-$(DSSAN):	$(OBJSDSSAN)
-			$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) deepstateTests.cpp $(OBJSDSSAN) -ldeepstate
+$(DSSAN):	$(OBJSDSSAN) deepstateTests.cpp
+			$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) $(DEEPSTATE_TEST_FILE) $(OBJSDSSAN) -ldeepstate
 
-$(DSAFL):	$(OBJSDSAFL)
+$(DSAFL):	$(OBJSDSAFL) deepstateTests.cpp
 			${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) $(DEEPSTATE_TEST_FILE) $(OBJSDSAFL) -ldeepstate_AFL
 
 qaProject.o:	qaProject.cpp qaProject.h
-				$(CXX) -c qaProject.cpp
+				#$(CXX) -c qaProject.cpp
+
+#deepStateTests.o: deepstateTests.cpp qaProject.cpp qaProject.h
 
 san_qaProject.o:	qaProject.cpp qaProject.h
 					$(CXX) $(CFLAGS) -c -o san_qaProject.o qaProject.cpp -fsanitize=undefined,address,integer
