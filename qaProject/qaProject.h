@@ -24,7 +24,7 @@ void firstParallelLoop(int N, int M, long& A);
 void thirdParallelLoop(int M, int N, double& D);
 void fourthParallelLoop(double B, int N, double D, double& C);
 void secondParallelLoop(long A, double& B);
-double parrallelOptimizedRun(int N, int M, int threads);
+double parrallelOptimizedRun(int N, int M);
 
 void seqTimer(int N, int M, double& seqTime);
 void paraTimer(int N, int M, double& paraTime);
