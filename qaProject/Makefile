@@ -23,9 +23,9 @@ AFL_HOME = /usr/local/bin/afl-gcc
 DEEPSTATE_TEST_FILE = deepstateTests.cpp
 
 #real code
-UNIT = my_code
+#UNIT = my_code
 
-JOHNFUZZ = fuzz_code
+#JOHNFUZZ = fuzz_code
 #deepstate exec
 DS = ds_test
 #DeepState exec w sanitizers
@@ -34,7 +34,7 @@ DSSAN = ds_test_san
 DSAFL = ds_test_afl
 
 all: $(LIBRARY) $(JOHNFUZZ) $(DS) $(DSSAN) $(DSAFL)
-
+#$(LIBRARY) $(JOHNFUZZ)
 #$(UNIT):	$(LIBRARY) main.cpp
 		#$(CXX) $(CFLAGS) -o $@ main.cpp -L. -lqaProject -lstdc++ -lm
 
@@ -48,10 +48,10 @@ $(DS):		$(OBJSDS) $(DEEPSTATE_TEST_FILE)
 		$(CXX) -std=c++14 $(CFLAGS) -o $(DS) qaProject.o deepstateTests.cpp -ldeepstate
 
 $(DSSAN):	$(OBJSDSSAN) $(DEEPSTATE_TEST_FILE)
-		$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $@ $(DEEPSTATE_TEST_FILE) $^ -ldeepstate
+		$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) $(DEEPSTATE_TEST_FILE) $^ -ldeepstate
 
 $(DSAFL):	$(OBJSDSAFL) $(DEEPSTATE_TEST_FILE)
-		${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $@ $(DEEPSTATE_TEST_FILE) $^ -ldeepstate_AFL
+		${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) $(DEEPSTATE_TEST_FILE) $^ -ldeepstate_AFL
 
 qaProject.o:	qaProject.cpp qaProject.h
 				$(CXX) -c $<
