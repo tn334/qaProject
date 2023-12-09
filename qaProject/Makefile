@@ -14,6 +14,9 @@ CXX=clang++
 CFLAGS = -fopenmp
 AFL_HOME = /usr/local/bin/afl-gcc
 
+# DeepState test file
+DEEPSTATE_TEST_FILE = deepstateTests.cpp
+
 #real code
 UNIT = my_code
 #deepstate exec
@@ -29,13 +32,13 @@ $(UNIT):	$(OBJS)
 			$(CXX) $(CFLAGS) $(OBJS) -o $(UNIT)
 
 $(DS):		$(OBJSDS)
-			$(CXX) -std=c++14 $(CFLAGS) -o $(DS) deepstateTests.cpp $(OBJSDS) -ldeepstate
+			$(CXX) -std=c++14 $(CFLAGS) -o $(DS) $(DEEPSTATE_TEST_FILE) $(OBJSDS) -ldeepstate
 
 $(DSSAN):	$(OBJSDSSAN)
 			$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) deepstateTests.cpp $(OBJSDSSAN) -ldeepstate
 
-$(DSAFL):	$(OBJSDSAFL) deepstateTests.cpp
-			${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) deepstateTests.cpp $(OBJSDSAFL) -ldeepstate_AFL
+$(DSAFL):	$(OBJSDSAFL)
+			${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) $(DEEPSTATE_TEST_FILE) $(OBJSDSAFL) -ldeepstate_AFL
 
 qaProject.o:	qaProject.cpp qaProject.h
 				$(CXX) -c qaProject.cpp
