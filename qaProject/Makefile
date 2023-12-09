@@ -48,7 +48,7 @@ $(DS):		$(OBJSDS) $(DEEPSTATE_TEST_FILE)
 		$(CXX) -std=c++14 $(CFLAGS) -o $(DS) qaProject.o deepstateTests.cpp -ldeepstate
 
 $(DSSAN):	$(OBJSDSSAN) $(DEEPSTATE_TEST_FILE)
-		$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) $(DEEPSTATE_TEST_FILE) $^ -ldeepstate
+		$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) $(DEEPSTATE_TEST_FILE) $(OBJSDSSAN) -ldeepstate
 
 $(DSAFL):	$(OBJSDSAFL) $(DEEPSTATE_TEST_FILE)
 		${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) $(DEEPSTATE_TEST_FILE) $^ -ldeepstate_AFL
