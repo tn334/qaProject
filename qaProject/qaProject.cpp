@@ -33,14 +33,16 @@ int myMain()
         double loseRate = 0;
         vector<tuple<int, int, double, double>> sequentialFasterCases;
 
+        omp_set_num_threads(threads);
+
         //sequential
         for (int N = PARAMTER_START; N <= PARAMETER_END; N += INCREMENTOR)
         {
             for (int M = PARAMTER_START; M <= PARAMETER_END; M += INCREMENTOR)
             {
-                inLoopRun(N, M, seqTime, paraTime, threads);
+                inLoopRun(N, M, seqTime, paraTime);
 
-                if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
+                if (seqTime < paraTime && (paraTime - seqTime) >= TIME_THRESHOLD)
                 {
                     seqWins++;
                     sequentialFasterCases.emplace_back(N, M, seqTime, paraTime);
@@ -172,9 +174,8 @@ void fourthSeqLoop(double B, int N, double D, double& C)
     }    
 }
 
-double parrallelOptimizedRun(int N, int M, int threads)
+double parrallelOptimizedRun(int N, int M)
 {
-    omp_set_num_threads(threads);
     long A = 0;
     double B = 0, C = 0, D = 0;
 
