@@ -1,15 +1,16 @@
 // qaProject.cpp : This file contains the 'main' function. Program execution begins and ends there.
 
+#include <iostream>
+#include <fstream>
 #include "qaProject.h"
 #include <assert.h>
-#include <iostream>
 #include <stdio.h>
 #include <math.h>
 #include <omp.h>
 #include <string>
 #include <vector>
 #include <tuple>
-#include <fstream> //ofstream, instream, .eof(), .get()
+#include <fstream>
 
 using namespace std;
 

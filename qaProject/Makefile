@@ -36,13 +36,13 @@ DSAFL = ds_test_afl
 all: $(LIBRARY) $(JOHNFUZZ) $(DS) $(DSSAN) $(DSAFL)
 
 $(UNIT):	$(LIBRARY) main.cpp
-		$(CXX) $(CFLAGS) -o $@ main.cpp -L. -lqaProject
+		$(CXX) $(CFLAGS) -o $@ main.cpp -L. -lqaProject -lstdc++ -lm
 
 $(LIBRARY):	$(OBJS)
 		ar rcs $@ $^
 
 $(JOHNFUZZ): $(OBJSJOHNFUZZ)
-		$(CC) $(CFLAGS) $^ -o $@ $(DMALLOC_LIB)
+		$(CC) $(CFLAGS) $^ -o $@ -lstdc++ -lm
 
 $(DS):		$(OBJSDS) $(DEEPSTATE_TEST_FILE)
 		$(CXX) -std=c++14 $(CFLAGS) -o $@ $(DEEPSTATE_TEST_FILE) $^ -ldeepstate
