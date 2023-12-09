@@ -9,11 +9,11 @@ const int PARAMTER_START = 50;
 const int PARAMETER_END = 300;
 const int INCREMENTOR = 50;
 const double TIME_THRESHOLD = .005;
-const int 
+//const int 
 
 int myMain();
 
-void inLoopRun(int& N, int& M, double& seqTime, double& paraTime, int threads);
+void inLoopRun(int& N, int& M, double& seqTime, double& paraTime);
 void firstSeqLoop(int N, int M, long& A);
 void thirdSeqLoop(int M, int N, double& D);
 void fourthSeqLoop(double B, int N, double D, double& C);

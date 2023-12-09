@@ -16,18 +16,18 @@ using namespace std;
 int myMain()
 {
     //open output file
-    ofstream outFile;
+    ofstream outFile("../output.txt");
     //try for threads 2-5???
 
     //cout << "Opening output.txt file" << endl;
-    outFile.open("../output.txt");
+    //outFile.open("../output.txt");
     assert(outFile.is_open() && "Failed to open output.txt file");
 
-    int threads;
+    //int threads;
 
-    for (threads = MINTHREADS; threads < MAXTHREADS; threads++)
+    for (int threads = MINTHREADS; threads < MAXTHREADS; threads++)
     {
-        // you may add some code here to measure the execution time
+        
         double seqTime = 0, paraTime = 0;
         double seqWins = 0, totalRuns = 0;
         double loseRate = 0;
@@ -39,8 +39,16 @@ int myMain()
             for (int M = PARAMTER_START; M <= PARAMETER_END; M += INCREMENTOR)
             {
                 inLoopRun(N, M, seqTime, paraTime, threads);
+
+                if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
+                {
+                    seqWins++;
+                    sequentialFasterCases.emplace_back(N, M, seqTime, paraTime);
+                }
+                totalRuns++;
             }
         }
+
         loseRate = seqWins / totalRuns;
         
         outFile << "\n\nPercentage of Sequential Wins for " << threads << " is " << loseRate << endl;
@@ -54,8 +62,8 @@ int myMain()
             outFile << "N+M = " << N_case + M_case << endl;
             outFile << "Sequential is faster for N=" << N_case << ", M=" << M_case << ", by " << Para_case - Seq_case << endl;
         }
-        
     }
+
     //close and check output file closed
     outFile.close();
     assert(!outFile.is_open() && "Failed to close output.txt file");
