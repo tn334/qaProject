@@ -35,17 +35,17 @@ DSAFL = ds_test_afl
 
 all: $(LIBRARY) $(JOHNFUZZ) $(DS) $(DSSAN) $(DSAFL)
 
-$(UNIT):	$(LIBRARY) main.cpp
-		$(CXX) $(CFLAGS) -o $@ main.cpp -L. -lqaProject -lstdc++ -lm
+#$(UNIT):	$(LIBRARY) main.cpp
+		#$(CXX) $(CFLAGS) -o $@ main.cpp -L. -lqaProject -lstdc++ -lm
 
-$(LIBRARY):	$(OBJS)
-		ar rcs $@ $^
+#$(LIBRARY):	$(OBJS)
+		#ar rcs $@ $^
 
-$(JOHNFUZZ): $(OBJSJOHNFUZZ)
-		$(CC) $(CFLAGS) $^ -o $@ -lstdc++ -lm
+#$(JOHNFUZZ): $(OBJSJOHNFUZZ)
+		#$(CC) $(CFLAGS) $^ -o $@ -lstdc++ -lm
 
 $(DS):		$(OBJSDS) $(DEEPSTATE_TEST_FILE)
-		$(CXX) -std=c++14 $(CFLAGS) -o $@ $(DEEPSTATE_TEST_FILE) $^ -ldeepstate
+		$(CXX) -std=c++14 $(CFLAGS) -o $(DS) qaProject.o deepstateTests.cpp -ldeepstate
 
 $(DSSAN):	$(OBJSDSSAN) $(DEEPSTATE_TEST_FILE)
 		$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $@ $(DEEPSTATE_TEST_FILE) $^ -ldeepstate
