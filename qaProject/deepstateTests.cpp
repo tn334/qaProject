@@ -28,7 +28,7 @@ TEST(QAProject, SequentialVsParallel) {
 
     // Test Threads is right number
     ASSERT_GE(threads, MINTHREADS);
-    ASSERT_LE(threads, MAXTHREADS)
+    ASSERT_LE(threads, MAXTHREADS);
     //ASSERT_LT(loseRate, 1.0); // Assert that loseRate is less than 1.0
 
     //ASSERT_EQ(totalRuns, (parameterEnd / incrementor) * (parameterEnd / incrementor));
@@ -58,7 +58,7 @@ TEST(QAProject, SequentialVsParallel) {
     // May make crashes
     ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
     
-    ASSERT_FLOAT_NEAR(seqTime, paraTime, timeDiffThreshold) << "Values are not within tolerance.";
+    ASSERT_FLOAT_NEAR(seqTime, paraTime, TIME_THRESHOLD) << "Values are not within tolerance.";
     // You can also check specific conditions based on your implementation
     // For example, you might want to check that the sequential implementation is faster
     // in certain cases or that the parallel implementation produces correct results.
