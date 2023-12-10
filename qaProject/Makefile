@@ -51,7 +51,7 @@ $(DSSAN):	$(OBJSDSSAN) $(DEEPSTATE_TEST_FILE)
 		$(CXX) -std=c++14 $(CFLAGS) -fsanitize=undefined,integer,address -o $(DSSAN) $(DEEPSTATE_TEST_FILE) $(OBJSDSSAN) -ldeepstate
 
 $(DSAFL):	$(OBJSDSAFL) $(DEEPSTATE_TEST_FILE)
-		${AFL_HOME}/afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) $(DEEPSTATE_TEST_FILE) $(OBJSDSAFL) -ldeepstate_AFL
+		afl-clang++ -std=c++14 $(CFLAGS) -o $(DSAFL) $(DEEPSTATE_TEST_FILE) $(OBJSDSAFL) -ldeepstate_AFL
 
 qaProject.o:	qaProject.cpp qaProject.h
 				$(CXX) -c $<
@@ -62,7 +62,7 @@ san_qaProject.o:	qaProject.cpp qaProject.h
 					$(CXX) $(CFLAGS) -c -o san_qaProject.o qaProject.cpp -fsanitize=undefined,address,integer
 
 afl_qaProject.o:	qaProject.cpp qaProject.h
-					${AFL_HOME}/afl-clang++ $(CFLAGS) -c -o afl_qaProject.o qaProject.cpp
+					afl-clang++ $(CFLAGS) -c -o afl_qaProject.o qaProject.cpp
 
 clean:			
 	rm -f *.o *~ $(UNIT) $(JOHNFUZZ) $(DS) $(DSSAN) $(DSLF) $(DSAFL) *.gcda *.gcno *.gcov
