@@ -45,7 +45,7 @@ TEST(QAProject, SequentialVsParallel) {
 
 
 
-    ASSERT_EQ(seqResult, paraResult) // "Sequential and parallel results should be equal.";
+    ASSERT_EQ(seqResult, paraResult); // "Sequential and parallel results should be equal.";
 
 
     //ASSERT_EQ(firstSeqLoop, firstParallelLoop);
@@ -59,6 +59,6 @@ TEST(QAProject, SequentialVsParallel) {
     LOG(TRACE) << "Sequential Time = " << seqTime;
     LOG(TRACE) << "Parallelized Time = " << paraTime;
     // May make crashes
-    ASSERT_LT(seqTime, paraTime) // "Sequential time should be less than parallel time.";
+    ASSERT_LT(seqTime, paraTime); // "Sequential time should be less than parallel time.";
     
 }
