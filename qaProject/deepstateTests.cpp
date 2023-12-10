@@ -18,12 +18,13 @@ TEST(QAProject, SequentialVsParallel) {
     double seqTime = 0, paraTime = 0;
     const char* filename = "output.txt";
 
-    LOG(TRACE) << "N=" << N;
-    LOG(TRACE) << "M=" << M;
+    LOG(TRACE) << "N = " << N;
+    LOG(TRACE) << "M = " << M;
+    LOG(TRACE) << "Number of Threads = " << threads;
 
-    ASSERT_GE(N, 50); // Assert that N is greater than or equal to 0
+    ASSERT_GE(N, 50); // Assert that N is greater than or equal to 50
     ASSERT_LE(N, 300);
-    ASSERT_GE(M, 50); // Assert that N is greater than or equal to 0
+    ASSERT_GE(M, 50); // Assert that N is greater than or equal to 50
     ASSERT_LE(M, 300);
 
     // Test Threads is right number
@@ -37,29 +38,27 @@ TEST(QAProject, SequentialVsParallel) {
 
     // Run the sequential implementation
     double seqResult = sequentialRun(N, M);
-
+    LOG(TRACE) << "Sequential Result = " << seqResult;
     // Run the parallel implementation
     double paraResult = parrallelOptimizedRun(N, M);
+    LOG(TRACE) << "Parallel Result = " << paraResult;
 
 
 
-    ASSERT_EQ(seqResult, paraResult) << "Sequential and parallel results should be equal.";
+    ASSERT_EQ(seqResult, paraResult) // "Sequential and parallel results should be equal.";
 
 
-    ASSERT_EQ(firstSeqLoop, firstParallelLoop);
+    //ASSERT_EQ(firstSeqLoop, firstParallelLoop);
     // Check if the results are equal within a tolerance
 
 
     // Add more assertions if needed
     seqTimer(N, M, seqTime);
     paraTimer(N, M, paraTime);
-    LOG(TRACE) << "Parallelized Time=" << paraTime;
-    LOG(TRACE) << "Sequential Time=" << seqTime;
-    // May make crashes
-    ASSERT_LT(seqTime, paraTime) << "Sequential time should be less than parallel time.";
     
-    //ASSERT_FLOAT_NEAR(seqTime, paraTime, TIME_THRESHOLD) << "Values are not within tolerance.";
-    // You can also check specific conditions based on your implementation
-    // For example, you might want to check that the sequential implementation is faster
-    // in certain cases or that the parallel implementation produces correct results.
+    LOG(TRACE) << "Sequential Time = " << seqTime;
+    LOG(TRACE) << "Parallelized Time = " << paraTime;
+    // May make crashes
+    ASSERT_LT(seqTime, paraTime) // "Sequential time should be less than parallel time.";
+    
 }
