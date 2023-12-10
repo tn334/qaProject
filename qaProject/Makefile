@@ -17,7 +17,7 @@ CXX = clang++
 endif
 
 CFLAGS = -fopenmp
-AFL_HOME = /usr/local/bin/afl-gcc
+AFL_HOME = /usr/local/bin
 
 # DeepState test file
 DEEPSTATE_TEST_FILE = deepstateTests.cpp
