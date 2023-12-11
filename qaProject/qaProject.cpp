@@ -17,12 +17,12 @@ using namespace std;
 int myMain()
 {
     //open output file
-    ofstream outFile("../output.txt");
+    //ofstream outFile("../output.txt");
     //try for threads 2-5???
 
     //cout << "Opening output.txt file" << endl;
     //outFile.open("../output.txt");
-    assert(outFile.is_open() && "Failed to open output.txt file");
+    //assert(outFile.is_open() && "Failed to open output.txt file");
 
     //int threads;
 
@@ -54,7 +54,7 @@ int myMain()
 
         loseRate = seqWins / totalRuns;
         
-        outFile << "\n\nPercentage of Sequential Wins for " << threads << " is " << loseRate << endl;
+        //outFile << "\n\nPercentage of Sequential Wins for " << threads << " is " << loseRate << endl;
         
         // handle sequential wins
         for (const auto& caseData : sequentialFasterCases)
@@ -62,14 +62,14 @@ int myMain()
             int N_case, M_case;
             double Seq_case, Para_case;
             tie(N_case, M_case, Seq_case, Para_case) = caseData;
-            outFile << "N+M = " << N_case + M_case << endl;
-            outFile << "Sequential is faster for N=" << N_case << ", M=" << M_case << ", by " << Para_case - Seq_case << endl;
+            //outFile << "N+M = " << N_case + M_case << endl;
+            //outFile << "Sequential is faster for N=" << N_case << ", M=" << M_case << ", by " << Para_case - Seq_case << endl;
         }
     }
 
     //close and check output file closed
-    outFile.close();
-    assert(!outFile.is_open() && "Failed to close output.txt file");
+    //outFile.close();
+    //assert(!outFile.is_open() && "Failed to close output.txt file");
 
     return 0;
 }
