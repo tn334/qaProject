@@ -38,8 +38,8 @@ all: $(LIBRARY) $(JOHNFUZZ) $(DS) $(DSSAN) $(DSAFL)
 #$(UNIT):	$(LIBRARY) main.cpp
 		#$(CXX) $(CFLAGS) -o $@ main.cpp -L. -lqaProject -lstdc++ -lm
 
-#$(LIBRARY):	$(OBJS)
-		#ar rcs $@ $^
+$(LIBRARY):	$(OBJS)
+		ar rcs $@ $^
 
 #$(JOHNFUZZ): $(OBJSJOHNFUZZ)
 		#$(CC) $(CFLAGS) $^ -o $@ -lstdc++ -lm
