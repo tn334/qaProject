@@ -16,16 +16,6 @@ using namespace std;
 
 int myMain()
 {
-    //open output file
-    //ofstream outFile("../output.txt");
-    //try for threads 2-5???
-
-    //cout << "Opening output.txt file" << endl;
-    //outFile.open("../output.txt");
-    //assert(outFile.is_open() && "Failed to open output.txt file");
-
-    //int threads;
-
     for (int threads = MINTHREADS; threads < MAXTHREADS; threads++)
     {
         
@@ -54,22 +44,15 @@ int myMain()
 
         loseRate = seqWins / totalRuns;
         
-        //outFile << "\n\nPercentage of Sequential Wins for " << threads << " is " << loseRate << endl;
-        
         // handle sequential wins
         for (const auto& caseData : sequentialFasterCases)
         {
             int N_case, M_case;
             double Seq_case, Para_case;
             tie(N_case, M_case, Seq_case, Para_case) = caseData;
-            //outFile << "N+M = " << N_case + M_case << endl;
-            //outFile << "Sequential is faster for N=" << N_case << ", M=" << M_case << ", by " << Para_case - Seq_case << endl;
+           
         }
     }
-
-    //close and check output file closed
-    //outFile.close();
-    //assert(!outFile.is_open() && "Failed to close output.txt file");
 
     return 0;
 }
@@ -79,17 +62,7 @@ void inLoopRun(int& N, int& M, double& seqTime, double& paraTime)
     seqTimer(N, M, seqTime);
 
     paraTimer(N, M, paraTime);
-
-    /*if (seqTime < paraTime && (paraTime - seqTime) >= timeDiffThreshold)
-    {
-        sequentialFasterCases.emplace_back(N, M, seqTime, paraTime);
-        seqWins++;
-#ifdef DEBUG_ASSERT
-        Assert(seqTime < paraTime, "Sequential is faster than parallelized");
-#endif
-    }
-
-    totalRuns++;*/
+    
 }
 
 void paraTimer(int N, int M, double& paraTime)
@@ -211,7 +184,6 @@ void firstParallelLoop(int N, int M, long& A)
 
 void secondParallelLoop(long A, double& B)
 {
-    //if(N + M < 350)
 #pragma omp parallel for reduction(+:B) schedule(dynamic)
     for (long i = 1; i < (long)sqrt(A); i++)
     {
@@ -236,8 +208,7 @@ void thirdParallelLoop(int M, int N, double& D)
 
 void fourthParallelLoop(double B, int N, double D, double& C)
 {
-    //if(N + M < 350)
-#pragma omp parallel for reduction(+:C) schedule(dynamic)
+#pragma omp parallel for if(N + M < 350) reduction(+:C) schedule(dynamic)
     for (long i = 0; i < (long)B * (N + 1); i++)
     {
         for (long j = 1; j < (long)sqrt(D); j++)

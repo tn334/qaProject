@@ -60,5 +60,5 @@ TEST(QAProject, SequentialVsParallel) {
     LOG(TRACE) << "Parallelized Time = " << paraTime;
     // May make crashes
     ASSERT_LT(seqTime, paraTime); // "Sequential time should be less than parallel time.";
-    
+    ASSERT_FLOAT_NEAR(seqTime, paraTime, TIME_THRESHOLD); //Asserting that we are within .005
 }
