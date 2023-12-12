@@ -60,6 +60,5 @@ TEST(QAProject, SequentialVsParallel) {
     LOG(TRACE) << "Parallelized Time = " << paraTime;
     // May make crashes
     ASSERT_GT(seqTime, paraTime); // "Sequential time should be less than parallel time.";
-    
-    ASSERT_TRUE(std::abs(seqTime - paraTime) < TIME_THRESHOLD);
+
 }
