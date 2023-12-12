@@ -208,7 +208,7 @@ void thirdParallelLoop(int M, int N, double& D)
 
 void fourthParallelLoop(double B, int N, double D, double& C)
 {
-#pragma omp parallel for if(N + M < 350) reduction(+:C) schedule(dynamic)
+#pragma omp parallel for reduction(+:C) schedule(dynamic)
     for (long i = 0; i < (long)B * (N + 1); i++)
     {
         for (long j = 1; j < (long)sqrt(D); j++)
